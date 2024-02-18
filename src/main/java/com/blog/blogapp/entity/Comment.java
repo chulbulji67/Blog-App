@@ -29,6 +29,5 @@ public class Comment extends AbstractClass{
     //article_id (foreign key referencing article_id),
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "article_id")
-
     private Article article;
 }

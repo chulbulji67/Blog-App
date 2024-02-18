@@ -6,6 +6,7 @@ import com.blog.blogapp.exception.userexception.UserAlreadyExistException;
 import com.blog.blogapp.repo.UserRepo;
 import com.blog.blogapp.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public User registerUsre(User user) {
         //Check if UserAlready Exist
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService {
             if(existUser != null) throw new UserAlreadyExistException("User with This email already exist");
         }
 
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
